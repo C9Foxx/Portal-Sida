@@ -13,7 +13,7 @@
                         <div class="col-sm-12 col-md-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <form action="/edit/<%= question._id %>" method="post">
+                                    <form action="/add" method="post">
                                         <div class="form-group">
                                             <textarea class ="form-control" name="quest" placeholder="Pregunta"></textarea>
                                         </div>
@@ -41,7 +41,7 @@
                                                 Respuesta
                                             </label>
                                         </div>
-                                        <button class="button" type="submit">Actualizar</button>
+                                        <button class="button" type="submit">Agregar</button>
                                     </form>
                                 </div>
                             </div>
@@ -50,6 +50,52 @@
                 </div>
             </div>
         </div>
+
+        <div class="card">
+            <div class="pdd-horizon-15 pdd-vertical-20">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!--Load Questions-->
+                        <div class="col-sm-12">
+                            <table class= "table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th><b>Pregunta</b></th>
+                                        <th>Opciones</th>
+                                        <th>Respuesta</th>
+                                        <th>Operación</th>
+                                    </tr>
+                            
+                            
+                                </thead>
+                                <!--  TABLA CON LOS DATOS-->
+                                <tbody>
+                                    <% for (var i =0; i < questions.length; i++)  {     %>
+                                        <tr>
+                                            <td> <%= i+1 %></td>
+                                            <td> <%= questions[i].quest %></td>
+                                            <td>
+                                                <div>1) <%= questions[i].options[0] %></div>
+                                                <div>2) <%= questions[i].options[1] %></div>
+                                                <div>3) <%= questions[i].options[2] %></div>
+                                                <div>4) <%= questions[i].options[3] %></div>
+                                            </td>
+                                            <td> <%= questions[i].ans %></td>
+                                            <td>
+                                                <a href=/delete/<%= questions[i]._id %>   class="btn btn-danger">Borrar </a>
+                                                <a href=/edit/<%= questions[i]._id %>  class="btn btn-info">Editar </a>
+                                            </td>
+                                        </tr>    
+                                        <%  }  %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 

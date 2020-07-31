@@ -76,9 +76,8 @@ router.get('/config',verifyToken, async (req,res,next) =>{
     userAdmin = req.userAdmin;
     if(userAdmin == true){
         const questions = await Question.find();
-        res.render('edit', {questions});
+        res.render('config_questions', {questions});
     }
-    
 })
 
 router.get("/profile",verifyToken, async (req,res,next)=>{
@@ -98,16 +97,37 @@ router.post('/add',verifyToken, async (req,res,next) =>{
     const options = [req.body.A, req.body.B, req.body.C, req.body.D];
     const ans = req.body.ans;
     const question = new Question({quest, options, ans});
-
-    console.log({quest, options, ans});
-
     await question.save();
     res.redirect('/config');
 })
 
 
-router.post('/checkAns',verifyToken, async (req,res,next) =>{
-    console.log(req.body.ans);
+
+
+router.get('/edit/:id',verifyToken, async (req,res,next) =>{
+    const question = await Question.findById(req.params.id);
+    res.render('edit', {question});
+})
+
+router.post('/edit/:id',verifyToken, async(req,res) =>{
+    let id = req.params.id;
+    const quest = req.body.quest; 
+    const options = [req.body.A, req.body.B, req.body.C, req.body.D];
+    const ans = req.body.ans;
+    await Question.updateOne({_id: id},{quest, options, ans});
+    res.redirect('/config');
+})
+
+
+router.get('/delete/:id',  async (req,res) =>{
+    var id = req.params.id;
+    await Question.remove({_id: id});
+    res.redirect('/config');
+})
+
+
+router.post('/checkAns', async (req,res,next) =>{
+    console.log(req.body);
    
     res.send("SCORE");
 })

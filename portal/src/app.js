@@ -11,7 +11,7 @@ const app = express();
 //usar formato JSON
 app.use(express.json());
 //habilita post del formulario
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 app.use(express.static("src/public"));
 

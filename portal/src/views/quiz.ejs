@@ -123,7 +123,8 @@ function checkAll() {
             }
         });
     });
-    $.post("/checkAns", {ans: ans},function(data) {
+    var answare = ans.toString();
+    $.post("/checkAns", answare,function(data) {
         // If a table is available... tell user they are booked.
         if (data) {
         alert("Bienvenid@");
