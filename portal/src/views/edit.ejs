@@ -1,0 +1,104 @@
+<%- include ("./partials/_header") %>
+<!-- Content Wrapper START -->
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <!-- Your content goes here -->
+        <!-- card QUIZ -->
+        <div class="card">
+            <div class="pdd-horizon-15 pdd-vertical-20">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <form action="/add" method="post">
+                                        <div class="form-group">
+                                            <textarea class ="form-control" name="quest" placeholder="Pregunta"></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control text-left" type="text" name="A" placeholder="Opción 1">
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control text-left" type="text" name="B" placeholder="Opción 2">
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control text-left" type="text" name="C" placeholder="Opción 3">
+                                        </div>
+                                        <div class="form-group">
+                                            <input class="form-control text-left" type="text" name="D" placeholder="Opción 4">
+                                        </div>
+                                        <div>
+                                            <label class="form-check-label mb-2">
+                                                <select id="" name="ans">
+                                                    <option > ... </option>
+                                                    <option >1</option>
+                                                    <option >2</option>
+                                                    <option >3</option>
+                                                    <option >4</option>
+                                                </select>
+                                                Respuesta
+                                            </label>
+                                        </div>
+                                        <button class="button" type="submit">Agregar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Load Questions-->
+                        <div class="col-sm-12 col-md-8">
+                            <table class= "table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Pregunta</th>
+                                        <th>Opciones</th>
+                                        <th>Operación</th>
+                                    </tr>
+                            
+                            
+                                </thead>
+                                <!--  TABLA CON LOS DATOS-->
+                                <tbody>
+                                    <% for (var i =0; i < questions.length; i++)  {     %>
+                                        <tr>
+                                            <td> <%= i+1 %></td>
+                                            <td> <%= questions[i].quest %></td>
+                                            <td>
+                                                <div>1) <%= questions[i].options[0] %></div>
+                                                <div>2) <%= questions[i].options[1] %></div>
+                                                <div>3) <%= questions[i].options[2] %></div>
+                                                <div>4) <%= questions[i].options[3] %></div>
+                                            </td>
+                                            <td>
+                                                <a href=/delete/<%= questions[i]._id %>   class="btn btn-danger" href="turn">Borrar </a>
+                                                <a href=/edit/<%= questions[i]._id %> class="btn btn-info" href="turn">Editar </a>
+                                            </td>
+                                        </tr>    
+                                        <%  }  %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    
+       
+<%- include ("./partials/_footer") %>
+
+
+<!-- Insert your dependencies here -->
+<script>
+$(document).ready(function(){
+    $('.app').toggleClass("is-collapsed");
+});
+</script>
+</body>
+
+</html>

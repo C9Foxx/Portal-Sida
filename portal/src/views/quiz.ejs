@@ -1,0 +1,141 @@
+<%- include ("./partials/_header") %>
+<!-- Content Wrapper START -->
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <!-- Your content goes here -->
+
+
+        <!-- card QUIZ -->
+        <div class="card">
+            <div class="pdd-horizon-15 pdd-vertical-20">
+                <div class="container-fluid">
+                    <h1 class="card-title mrg-left-40">Ejercicio Final</h1>
+                    <p class="card-info mrg-btm-15 mrg-left-40">
+                        <i class="icon ti-mouse-alt"></i> 
+                        <label style="padding-right:10px; margin-bottom: 0px;" >Haz clic sobre la opción <input type="radio"> correcta</label>
+                     </p>
+                    <div class="row" style="position: relative;">
+                        <div class="msg">
+                            <span></span>
+                        </div>
+                        <!-- Columna izquierda de preguntas START -->
+                        <div class="col-md-12 pl-3 mrg-btm--50">
+                            <div class=" pdd-vertical-30 pdd-horizon-25">
+                                <ol>
+                                <!-- Preguntas-->
+                                <% for (var i =0; i < questions.length; i++)  {     %>
+                                    <li class="question">
+                                        <p><%= questions[i].quest %></p>
+                                        <b class='alertWrong' style="display: none; color:red">
+                                            Incorrecto
+                                        </b>
+                                        <b class='alertCorrect' style="display: none; color:green">
+                                            ¡Correcto!
+                                        </b>
+                                        <div class="row">
+                                            <div class="pl-3">
+
+                                                <!-- Group of default radios - option 1 -->
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" class="custom-control-input" id="default<%= i%>GroupExample1" name="group<%= i%>">
+                                                    <label class="custom-control-label " for="default<%= i%>GroupExample1"><%= questions[i].options[0] %></label>
+                                                </div>
+                                                
+                                                <!-- Group of default radios - option 2 -->
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" class="custom-control-input" id="default<%= i%>GroupExample2" name="group<%= i%>">
+                                                    <label class="custom-control-label" for="default<%= i%>GroupExample2"><%= questions[i].options[1] %></label>
+                                                </div>
+                                                
+                                                <!-- Group of default radios - option 3 -->
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" class="custom-control-input" id="default<%= i%>GroupExample3" name="group<%= i%>">
+                                                    <label class="custom-control-label" for="default<%= i%>GroupExample3"><%= questions[i].options[2] %></label>
+                                                </div>
+
+                                                <!-- Group of default radios - option 4 -->
+                                                <div class="custom-control custom-radio">
+                                                    <input type="radio" class="custom-control-input correct" id="default<%= i%>GroupExample4" name="group<%= i%>">
+                                                    <label class="custom-control-label" for="default<%= i%>GroupExample4"><%= questions[i].options[3] %></label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                <%  }  %>
+                                </ol>
+                            </div>
+                        </div>
+                        <!-- Columna izquierda de preguntas END -->                            
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submitbutton mrg-btm-30">
+                    <button type="button" class="button" onclick="checkAll()">Revisar</button>
+                </div>  
+            </div>
+        </div>
+        <!-- card QUIZ -->
+        <aside>
+            <!-- Modal for INFO 1-->
+            <div class="modal show" id="Q1" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title align-self-center">Bienvenida:</h2>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <h3 class="mb-3">
+                                ¡Hola <b><%=userName%></b>, te damos la más cordial bienvenida al Portal CVA!
+                            </h3>
+                            <img src="./img/Welcome.png">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+</div>
+<%- include ("./partials/_footer") %>
+
+
+<!-- Insert your dependencies here -->
+<script>
+$(document).ready(function(){
+    $('#Q1').modal({ show: true });  
+});
+
+function checkAll() {
+    var ans = [];
+    var count = 0;
+    $("li.question").each(function () {
+        count++;
+        var elem = $(this);
+        var c = 0;
+        $(this).find("input.custom-control-input").each(function () {
+            c++;
+            if ($(this).is(":checked")) {
+                ans.push(c);
+            }
+        });
+    });
+    $.post("/checkAns", {ans: ans},function(data) {
+        // If a table is available... tell user they are booked.
+        if (data) {
+        alert("Bienvenid@");
+        }
+        // If a table is available... tell user they on the waiting list.
+        else {
+        alert("BYE ME FUI");
+        }
+    });
+};
+
+</script>
+</body>
+
+</html>
