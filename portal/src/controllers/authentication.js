@@ -80,14 +80,30 @@ router.get('/config',verifyToken, async (req,res,next) =>{
     }
 })
 
-router.get("/profile",verifyToken, async (req,res,next)=>{
-     
-     const user = await User.findById(req.userId);
-     if(!user){
+router.get("/grades",verifyToken, async (req,res,next)=>{
+    userAdmin = req.userAdmin;
+     const userSearched = await User.findById(req.userId);
+
+     if(!userSearched){
          return res.status(404).send("No user found");
      }
      else {
-         res.json(user);
+         res.render('grades', {userSearched,userAdmin})
+     }
+    
+})
+
+router.post("/search",verifyToken, async (req,res,next)=>{
+    userAdmin = req.userAdmin;
+    email = req.body.searchUser
+
+    const userSearched = await User.findOne({email:email});
+
+     if(!userSearched){
+         return res.status(404).send("No user found");
+     }
+     else {
+         res.render('grades', {userSearched,userAdmin})
      }
     
 })
@@ -100,8 +116,6 @@ router.post('/add',verifyToken, async (req,res,next) =>{
     await question.save();
     res.redirect('/config');
 })
-
-
 
 
 router.get('/edit/:id',verifyToken, async (req,res,next) =>{
@@ -119,18 +133,33 @@ router.post('/edit/:id',verifyToken, async(req,res) =>{
 })
 
 
-router.get('/delete/:id',  async (req,res) =>{
+router.get('/delete/:id',verifyToken,  async (req,res) =>{
     var id = req.params.id;
     await Question.remove({_id: id});
     res.redirect('/config');
 })
 
 
-router.post('/checkAns', async (req,res,next) =>{
-    console.log(req.body);
-   
-    res.send("SCORE");
+router.post('/checkAns', verifyToken, async (req,res,next) =>{
+    id = req.userId;
+    const respuestas = req.body.ans;
+    const questions = await Question.find();
+    const total = questions.length
+    let score = 0;
+    for(let i = 0; i < total; i++){
+        if(respuestas[i] == questions[i].ans){
+            score++;
+        }
+    }
+    const cal = Math.round(((score/total)*100)).toString();
+    await User.updateOne(
+        { _id: id }, 
+        { $push: {scores:cal} }
+    );
+    res.send(cal);
 })
+
+
 
 
 router.get("/logout", (req,res)=>{

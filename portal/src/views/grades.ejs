@@ -1,0 +1,61 @@
+<%- include ("./partials/_header") %>
+<!-- Content Wrapper START -->
+<div class="main-content">
+    <div class="container-fluid">
+
+
+        <!-- Your content goes here -->
+        <div class="card">
+            <div class="pdd-horizon-15 pdd-vertical-20">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!--Load Scores-->
+                        <div class="col-sm-12 col-md-6">
+                            <% if(userAdmin){%> 
+                                <form action="/search" method="post" class="form-inline my-2 my-lg-0 mrg-vertical-20">
+                                    <input name="searchUser" class="form-control mr-sm-2" type="text" placeholder="Search by email" aria-label="Search">
+                                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                                </form>
+                            <%}%>
+                            <table class= "table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Usuario: <%= userSearched.name %></th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <table class= "table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Intento #</th>
+                                        <th><b>Nota</b></th>
+                                    </tr>
+                                </thead>
+                                <!--  TABLA CON LOS DATOS-->
+                                <tbody>
+                                    <% for (var i =0; i < userSearched.scores.length; i++)  {     %>
+                                        <tr>
+                                            <td> <%= i+1 %></td>
+                                            <td> <b><%= userSearched.scores[i] %></b></td>
+                                        </tr>    
+                                    <%  }  %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    
+       
+<%- include ("./partials/_footer") %>
+
+<!-- Insert your dependencies here -->
+</body>
+
+</html>

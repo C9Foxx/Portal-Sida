@@ -105,9 +105,12 @@
 
 <!-- Insert your dependencies here -->
 <script>
-$(document).ready(function(){
-    $('#Q1').modal({ show: true });  
-});
+var alerted = localStorage.getItem('alerted') || '';
+if (alerted != 'yes') {
+    $('#Q1').modal({ show: true }); 
+    localStorage.setItem('alerted','yes');
+}
+
 
 function checkAll() {
     var ans = [];
@@ -116,23 +119,30 @@ function checkAll() {
         count++;
         var elem = $(this);
         var c = 0;
+        var find = false;
         $(this).find("input.custom-control-input").each(function () {
             c++;
             if ($(this).is(":checked")) {
                 ans.push(c);
+                find = true;
             }
         });
+        if(find == false){
+            ans.push(0);
+        }
     });
-    var answare = ans.toString();
-    $.post("/checkAns", answare,function(data) {
-        // If a table is available... tell user they are booked.
+
+    $.post("/checkAns", {ans: ans},function(data) {
         if (data) {
-        alert("Bienvenid@");
+            if(data >= 70){
+                $(".msg > span").html("Aprobado: " + data + "/100").css("color","green");
+            }
+            else{
+                $(".msg > span").html("Reprobado: "+data + "/100").css("color","red");
+            } 
         }
-        // If a table is available... tell user they on the waiting list.
-        else {
-        alert("BYE ME FUI");
-        }
+        document.body.scrollTop = 0; // For Safari
+        document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     });
 };
 

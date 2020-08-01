@@ -4,7 +4,7 @@ const cookieParser = require("cookie-parser");
 
 function verifyToken(req,res,next){
     const token = req.cookies.token || '';
-    console.log("token" , token);
+    //console.log("token" , token);
         if(!token){
             return res.redirect('/');
         }
